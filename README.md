@@ -465,7 +465,36 @@ Copy `.agent.md` files into your VS Code prompts directory to use them in any wo
 - **Windows:** `%APPDATA%\\Code\\User\\prompts\\` (or `Code - Insiders\\User\\prompts\\`)
 - **Linux:** `~/.config/Code/User/prompts/` (or `Code - Insiders/User/prompts/`)
 
+
 Reload VS Code after copying so Copilot detects the agents.
+
+### Optional: Sync project agents to GitHub agents directory
+
+Some AI tools and GitHub integrations expect agent files to exist inside `.github/agents`.  
+If your project stores agents in `/agents`, you can sync them using:
+
+```bash
+mkdir -p .github/agents && cp agents/*.agent.md .github/agents/
+```
+
+This command will:
+
+- Create `.github/agents` if it does not exist
+- Copy all `.agent.md` files from `/agents`
+- Overwrite existing versions in `.github/agents`
+
+This is useful when:
+
+- Keeping agent definitions versioned inside the repository
+- Supporting tools that auto-detect agents inside `.github/agents`
+- Maintaining a single source of truth in `/agents`
+
+Reload VS Code:
+
+```code
+Cmd + Shift + P
+Reload Window
+```
 
 ## What is included in this template
 
