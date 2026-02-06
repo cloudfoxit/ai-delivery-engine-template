@@ -1,0 +1,29 @@
+name: Feature Request
+description: Propose a new feature or enhancement
+labels: ["feature", "ready-for-planning"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: A clear, concise description of the feature.
+      placeholder: As a [role], I want [capability] so that [benefit].
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: How will we know this feature is complete?
+      placeholder: |
+        - [ ] Criterion one
+        - [ ] Criterion two
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Any extra context, screenshots, or references.
+    validations:
+      required: false

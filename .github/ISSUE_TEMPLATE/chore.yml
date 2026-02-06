@@ -1,0 +1,28 @@
+name: Chore
+description: Non-feature work such as refactoring, tooling, CI, or documentation
+labels: ["chore", "ready-for-planning"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What needs to be done and why.
+    validations:
+      required: true
+  - type: textarea
+    id: done-criteria
+    attributes:
+      label: Done criteria
+      description: How will we know this chore is complete?
+      placeholder: |
+        - [ ] Criterion one
+        - [ ] Criterion two
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Any extra context or references.
+    validations:
+      required: false

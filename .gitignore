@@ -1,0 +1,17 @@
+# Generated plans / phase-complete artefacts
+/plans
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Environment
+.env
+.env.*
