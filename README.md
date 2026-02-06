@@ -40,6 +40,8 @@ Reviewer Validation
 Merge + Deployment Validation
 ```
 
+## Execution Workflow Models
+
 ### Agent interaction flow (optional orchestration)
 
 If you use orchestration (for example, a Conductor agent), the lifecycle typically looks like this:
@@ -77,6 +79,56 @@ sequenceDiagram
     end
 ```
 
+---
+
+### Manual execution flow (template-driven)
+
+If orchestration agents are not used, the same lifecycle can be executed manually using the `.ai/` templates and GitHub workflow discipline:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant GitHub
+    participant Planner
+    participant Builder
+    participant Reviewer
+
+    User->>GitHub: Create / refine feature issue
+    User->>Planner: Run planner-template.md
+    Planner-->>GitHub: Create feature folder + artefacts
+    Planner->>GitHub: Update labels (ready-for-planning → ready-for-build)
+
+    User->>Builder: Run builder-template.md
+    Builder-->>GitHub: Create feature branch + PR
+    Builder->>GitHub: Update labels (ready-for-build → ready-for-review)
+
+    User->>Reviewer: Run reviewer-template.md
+    Reviewer-->>GitHub: Post validation summary
+
+    alt PASS
+        User->>GitHub: Merge PR
+        User->>GitHub: Deploy + validate
+        User->>GitHub: Close issue
+    else REQUEST CHANGES
+        User->>Builder: Apply fixes
+        Builder-->>GitHub: Update PR
+        User->>Reviewer: Re-run review
+    end
+```
+
+Manual execution is recommended for:
+
+- Early adoption
+- Smaller teams
+- Organisations introducing governance gradually
+
+Agent orchestration is recommended for:
+
+- Large codebases
+- Parallel development
+- Teams requiring automated lifecycle enforcement
+---
+
 Notes:
 - Orchestration is optional. You can run the same workflow by copy-pasting the templates in `.ai/`.
 - Issue closure should happen only after merge and deployment validation.
@@ -103,6 +155,35 @@ This folder becomes the single source of truth for that feature.
 
 ---
 
+## Quick Start
+
+1. Create or generate a `current-state.md` snapshot using `current-state-template.md`
+2. Generate prioritised backlog items using `backlog-generator-template.md`
+3. Select an issue and run `planner-template.md`
+4. Implement using `builder-template.md`
+5. Validate using `reviewer-template.md`
+
+6. Merge only after Reviewer PASS and deployment validation
+
+### Setup GitHub Issue Lifecycle Labels (CLI)
+
+Run the following commands once per repository to create the delivery lifecycle labels:
+
+```bash
+gh label create ready-for-planning --color 0E8A16 --description "Feature is ready for planning"
+gh label create ready-for-build --color FBCA04 --description "Planner artefacts completed and ready for implementation"
+gh label create ready-for-review --color 1D76DB --description "Implementation completed and ready for review"
+gh label create ready-for-merge --color 5319E7 --description "Review passed and ready for merge"
+gh label create done --color 2CBE4E --description "Feature merged, deployed, and validated"
+```
+
+Notes:
+- These labels support lifecycle enforcement and delivery gates.
+- Labels only need to be created once per repository.
+- Adjust colours or descriptions if your organisation has existing conventions.
+
+---
+
 ## Workflow Roles
 
 This template defines three core delivery roles.
@@ -114,6 +195,17 @@ This template defines three core delivery roles.
 | Reviewer | Validates implementation safety, traceability, and completeness |
 
 These roles can be executed manually, through prompt templates, or through agent orchestration.
+
+---
+
+## Role and Agent Mapping
+
+| Governance Role | Template | Agent |
+|---|---|---|
+| Planner | planner-template.md | planning-subagent.agent.md |
+| Builder | builder-template.md | implement-subagent.agent.md |
+| Reviewer | reviewer-template.md | code-review-subagent.agent.md |
+| Orchestrator | README workflow | conductor.agent.md |
 
 ---
 
@@ -291,6 +383,8 @@ This template is intentionally governance-first. It focuses on ensuring that fea
 
 Agent orchestration frameworks (such as Orchestra and Atlas) optimise *how* AI writes code. This template optimises *how software is safely delivered*. The two approaches are complementary and can be combined.
 
+This template governs *what must be true before software is considered deliverable*, while orchestration tools govern *how AI executes development tasks*.
+
 ## When to Use Agent Orchestration
 
 Agent orchestration is most valuable when:
@@ -406,9 +500,9 @@ To adapt this template to your project:
 
 This template borrows orchestration concepts and naming conventions from community projects, while focusing on delivery governance:
 
-- **Copilot Orchestra** by ShepAlderson: foundation patterns for multi-agent planning → implementation → review workflows
-- **Copilot Atlas**: extended orchestration patterns (context conservation, parallel discovery, handoffs)
-- **oh-my-opencode**: agent naming conventions inspiration
+- **[copilot-orchestra](https://github.com/ShepAlderson/copilot-orchestra)** by [ShepAlderson](https://github.com/ShepAlderson): foundation patterns for multi-agent planning → implementation → review workflows
+- **[Copilot Atlas](https://github.com/bigguy345/Github-Copilot-Atlas)** by [bigguy345](https://github.com/bigguy345): extended orchestration patterns (context conservation, parallel discovery, handoffs)
+- **[oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode)** by [code-yeongyu](https://github.com/code-yeongyu): agent naming conventions inspiration
 
 ## Licence
 

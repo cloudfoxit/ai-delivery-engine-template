@@ -1,12 +1,27 @@
 name: Chore
 description: Non-feature work such as refactoring, tooling, CI, or documentation
 labels: ["chore", "ready-for-planning"]
+- type: input
+  id: related-feature
+  attributes:
+    label: Related feature (optional)
+    description: Kebab-case feature name if this chore supports a specific feature.
+    placeholder: example-feature-name
+  validations:
+    required: false
 body:
   - type: textarea
     id: summary
     attributes:
       label: Summary
       description: What needs to be done and why.
+    validations:
+      required: true
+  - type: textarea
+    id: business-goal
+    attributes:
+      label: Business or operational goal
+      description: Why is this chore required? What risk, quality, or delivery improvement does it support?
     validations:
       required: true
   - type: textarea
@@ -20,9 +35,20 @@ body:
     validations:
       required: true
   - type: textarea
+    id: technical-constraints
+    attributes:
+      label: Technical constraints (if known)
+      description: Stack, tooling, migration, or environment constraints that must be respected.
+      placeholder: |
+        - Framework or runtime constraints
+        - CI/CD or infrastructure constraints
+        - Security or compliance requirements
+    validations:
+      required: false
+  - type: textarea
     id: context
     attributes:
       label: Additional context
-      description: Any extra context or references.
+      description: Links to related issues, PRs, architecture docs, or feature folders.
     validations:
       required: false

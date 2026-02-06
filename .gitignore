@@ -1,5 +1,7 @@
 # Generated plans / phase-complete artefacts
 /plans
+/plans/archived
+/current-state.md
 
 # OS
 .DS_Store
@@ -12,6 +14,31 @@ Thumbs.db
 .idea/
 .vscode/
 
+# AI / Agent working directories
+.ai/tmp
+.ai/output
+
 # Environment
 .env
 .env.*
+
+# Logs
+logs/
+*.log
+
+# Dependency / build artefacts
+node_modules/
+dist/
+build/
+.coverage
+coverage/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS generated temp
+*.tmp
+*.temp

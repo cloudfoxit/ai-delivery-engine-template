@@ -1,12 +1,28 @@
+## Feature identity
+
+- **GitHub Issue:** #<!-- number -->
+- **Feature name:** <!-- kebab-case feature-name -->
+- **Feature folder:** `docs/features/<feature-name>/`
+- **PR stage label:** `ready-for-review` / `ready-for-merge`
+
 ## Summary
 
 <!-- Brief description of what this PR does and why. -->
 
-## Acceptance mapping
+## Artefacts and acceptance mapping
 
-| Acceptance criterion | Status | Notes |
+**Planner artefacts (required):**
+- `docs/features/<feature-name>/spec.md`
+- `docs/features/<feature-name>/contract.md`
+- `docs/features/<feature-name>/acceptance.md`
+- `docs/features/<feature-name>/checklist.md`
+- Optional: `decisions.md`, `open-questions.md`
+
+**Artefact authority:** `decisions.md` → `contract.md` → `spec.md`/`acceptance.md` → `checklist.md`
+
+| Acceptance criterion (from acceptance.md) | Status | Evidence (tests/commands/screenshots/notes) |
 |---|---|---|
-| <!-- criterion from spec --> | :white_check_mark: / :x: | <!-- how it was verified --> |
+| <!-- Given/When/Then item --> | :white_check_mark: / :x: | <!-- how it was verified --> |
 
 ## Risk notes
 
@@ -16,13 +32,27 @@
 
 ## Migration notes
 
-<!-- Any steps required when deploying this change (env vars, DB migrations, config changes). Write "None" if not applicable. -->
-
-None
+- **DB migrations:** None / `web/supabase/migrations/....sql`
+- **Config/env changes:** None / list keys + where set
+- **Backwards compatibility:** None / describe
+- **Rollback plan:** None / describe
 
 ## Checklist
 
-- [ ] Acceptance criteria mapped above
+- [ ] Feature identity completed (issue, feature name, feature folder)
+- [ ] Planner artefacts referenced above and aligned (authority respected)
+- [ ] Acceptance criteria mapped above with evidence
 - [ ] Tests cover new/changed behaviour
+- [ ] Verification commands run (paste output links or short notes):
+  - [ ] `npm test` / `pnpm test` / `bun test` (as applicable)
+  - [ ] `npm run lint` / `pnpm lint`
+  - [ ] Any integration tests / DB tests (as applicable)
 - [ ] No secrets or credentials committed
-- [ ] Documentation updated (if applicable)
+- [ ] Documentation updated (README/current-state/feature docs) if applicable
+- [ ] Post-merge actions noted (deploy/migration apply/monitoring)
+
+## Reviewer sign-off
+
+- **Reviewer outcome:** APPROVE / REQUEST CHANGES / ESCALATE
+- **Issue comment posted:** Yes / No (link)
+- **Label transition:** `ready-for-review` → `ready-for-merge` (if approved)

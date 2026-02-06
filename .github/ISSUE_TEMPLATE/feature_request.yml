@@ -2,12 +2,29 @@ name: Feature Request
 description: Propose a new feature or enhancement
 labels: ["feature", "ready-for-planning"]
 body:
+  - type: input
+    id: feature-name
+    attributes:
+      label: Suggested feature name (kebab-case)
+      description: Optional but recommended. Helps planner maintain consistent feature folder naming.
+      placeholder: example-feature-name
+    validations:
+      required: false
   - type: textarea
     id: summary
     attributes:
       label: Summary
       description: A clear, concise description of the feature.
       placeholder: As a [role], I want [capability] so that [benefit].
+    validations:
+      required: true
+  - type: textarea
+    id: business-goal
+    attributes:
+      label: Business goal / outcome
+      description: Why does this feature exist? What measurable or operational outcome should it deliver?
+      placeholder: |
+        Describe the business or operational outcome this feature supports.
     validations:
       required: true
   - type: textarea
@@ -21,9 +38,21 @@ body:
     validations:
       required: true
   - type: textarea
+    id: technical-constraints
+    attributes:
+      label: Technical constraints (if known)
+      description: Stack, architecture, integration, or compliance constraints that must be respected.
+      placeholder: |
+        - Framework or runtime constraints
+        - Integration dependencies
+        - Security or compliance requirements
+        - Performance expectations
+    validations:
+      required: false
+  - type: textarea
     id: context
     attributes:
       label: Additional context
-      description: Any extra context, screenshots, or references.
+      description: Links to related issues, PRs, architecture documents, discovery notes, or example implementations.
     validations:
       required: false
