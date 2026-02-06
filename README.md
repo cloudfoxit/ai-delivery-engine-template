@@ -1,3 +1,122 @@
+# AI Delivery Engine Template
+
+A governance-first multi-agent delivery workflow for building software safely with AI assistance.
+
+This repository provides structured templates, agent definitions, and workflow conventions for delivering features using a deterministic lifecycle:
+
+```
+Discovery → Backlog Generation → Planning → Implementation → Review → Merge & Deploy
+```
+
+Unlike agent orchestration systems that focus purely on code generation, this template focuses on:
+
+- Delivery governance
+- Feature traceability
+- Capability mapping
+- Safe and auditable AI-assisted development
+
+The system is compatible with multi-agent orchestration tools but does not require them.
+
+---
+
+## Architecture Overview
+
+The workflow is built around a documentation-driven delivery architecture:
+
+```
+Product Brief / Goal
+        ↓
+current-state.md
+        ↓
+Backlog Generator
+        ↓
+Feature Documentation Set
+(spec / contract / acceptance / checklist / decisions)
+        ↓
+Builder Implementation
+        ↓
+Reviewer Validation
+        ↓
+Merge + Deployment Validation
+```
+
+### Agent interaction flow (optional orchestration)
+
+If you use orchestration (for example, a Conductor agent), the lifecycle typically looks like this:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Conductor
+    participant Planner
+    participant Builder
+    participant Reviewer
+    participant GitHub
+
+    User->>Conductor: Select issue / goal
+    Conductor->>Planner: Create feature artefacts (spec/contract/acceptance/checklist)
+    Planner-->>Conductor: Artefacts created + open questions (if any)
+    Conductor->>GitHub: Update issue labels (ready-for-planning → ready-for-build)
+    Conductor->>User: Present artefacts + request approval gate
+    User-->>Conductor: Approve to proceed
+
+    Conductor->>Builder: Implement strictly from feature folder
+    Builder-->>Conductor: PR ready + test results
+    Conductor->>GitHub: Create PR + update labels (ready-for-build → ready-for-review)
+
+    Conductor->>Reviewer: Validate artefact → implementation alignment
+    Reviewer-->>Conductor: PASS / REQUEST CHANGES
+
+    alt PASS
+        Conductor->>GitHub: Comment summary + set ready-for-merge
+        Conductor->>User: Merge + deploy checklist
+    else REQUEST CHANGES
+        Conductor->>Builder: Apply fixes
+        Builder-->>Conductor: Updated PR + tests
+        Conductor->>Reviewer: Re-review
+    end
+```
+
+Notes:
+- Orchestration is optional. You can run the same workflow by copy-pasting the templates in `.ai/`.
+- Issue closure should happen only after merge and deployment validation.
+
+Each feature is controlled through a **feature folder** located at:
+
+```
+/docs/features/<feature-name>/
+```
+
+This folder becomes the single source of truth for that feature.
+
+---
+
+## Key Features
+
+- Documentation-first delivery governance
+- Deterministic feature lifecycle
+- Artefact authority hierarchy
+- Capability-driven backlog generation
+- Human-in-the-loop approval gates
+- CLI-first automation support
+- Optional multi-agent orchestration support
+
+---
+
+## Workflow Roles
+
+This template defines three core delivery roles.
+
+| Role | Responsibility |
+| --- | --- |
+| Planner | Converts backlog issues into structured feature documentation |
+| Builder | Implements features strictly from documentation artefacts |
+| Reviewer | Validates implementation safety, traceability, and completeness |
+
+These roles can be executed manually, through prompt templates, or through agent orchestration.
+
+---
+
 ## Artefact authority hierarchy
 
 The feature documentation set is the **source of truth**. When there is a conflict between artefacts, the following hierarchy applies:
@@ -41,6 +160,18 @@ Derived Capability is OPTIONAL but strongly recommended for:
 
 ---
 
+## Delivery Lifecycle
+
+Every feature progresses through labelled stages:
+
+```
+ready-for-planning → ready-for-build → ready-for-review → ready-for-merge → done
+```
+
+Label transitions enforce delivery gates and prevent premature implementation.
+
+---
+
 ## Current State and Backlog Generation Workflow
 
 This template supports discovery‑driven planning using two additional artefacts:
@@ -79,10 +210,32 @@ The `agents/` folder contains `.agent.md` files for AI tools that support agent 
 
 | File | Role |
 | --- | --- |
-| `conductor.agent.md` | Optional orchestrator coordinating Planner → Builder → Reviewer lifecycle and enforcing label‑based delivery gates |
+| `conductor.agent.md` | Optional orchestration controller coordinating Planner → Builder → Reviewer lifecycle and enforcing label‑based delivery gates. Not required for core workflow. |
 | `planning-subagent.agent.md` | Planner role as a sub‑agent |
 | `implement-subagent.agent.md` | Builder role as a sub‑agent |
 | `code-review-subagent.agent.md` | Reviewer role as a sub‑agent |
+
+### Orchestration maturity levels
+
+This template supports multiple execution styles:
+
+| Level | Description |
+| --- | --- |
+| Manual | Copy-paste prompt templates for Planner → Builder → Reviewer |
+| Assisted | Run subagents individually for each role |
+| Orchestrated | Use Conductor or equivalent agent to coordinate full lifecycle |
+
+The Conductor agent is optional and exists only to automate workflow coordination. The core delivery engine functions without it.
+
+### How to use
+
+- If you have a Conductor agent installed, you can use it to coordinate the full Planner → Builder → Reviewer lifecycle. (Optional.)
+- Use subagents directly when you want narrow, specialised execution:
+  - `planning-subagent` for discovery and plan artefacts
+  - `implement-subagent` for implementation within the defined feature scope
+  - `code-review-subagent` for PR/branch review against artefacts
+
+Orchestration is optional. You can run the same workflow by copy-pasting the prompt templates in `.ai/`.
 
 ### Advanced orchestration extensions
 
@@ -130,13 +283,24 @@ This enables:
 
 ## Delivery Governance vs Coding Orchestration
 
-This template is intentionally governance‑first. It focuses on ensuring that features are:
+This template is intentionally governance-first. It focuses on ensuring that features are:
 
 - Fully specified before implementation
 - Traceable from requirements to code
 - Auditable through structured artefacts
 
 Agent orchestration frameworks (such as Orchestra and Atlas) optimise *how* AI writes code. This template optimises *how software is safely delivered*. The two approaches are complementary and can be combined.
+
+## When to Use Agent Orchestration
+
+Agent orchestration is most valuable when:
+
+- The codebase is large or multi-service
+- Parallel discovery or implementation improves efficiency
+- Context window limits affect delivery quality
+- Teams want automated role coordination
+
+For smaller projects or early prototypes, manual Planner → Builder → Reviewer execution is often sufficient.
 
 ## CLI-first guidance
 
@@ -161,70 +325,53 @@ Builders and orchestration agents MAY execute independent checklist tasks in par
 
 Parallel execution is optional and should favour correctness over speed.
 
-## Agent orchestration (optional)
+## Requirements and recommended setup
 
-The `agents/` folder contains `.agent.md` files for AI tools that support agent definitions and orchestration workflows.
+This template works with any workflow, but it is optimised for **VS Code Copilot agent orchestration**.
 
-| File | Role |
-| --- | --- |
-| `conductor.agent.md` | Optional orchestrator coordinating Planner → Builder → Reviewer lifecycle and enforcing label‑based delivery gates |
-| `planning-subagent.agent.md` | Planner role as a sub‑agent |
-| `implement-subagent.agent.md` | Builder role as a sub‑agent |
-| `code-review-subagent.agent.md` | Reviewer role as a sub‑agent |
+### Recommended
 
-### Advanced orchestration extensions
+- VS Code Insiders (best support for agent orchestration features)
+- GitHub Copilot subscription (Copilot Chat + Agents)
+- Git installed locally
+- GitHub CLI (`gh`) installed and authenticated
 
-Projects may optionally introduce additional specialized agents to improve context efficiency and parallel execution:
+### Optional settings
 
-| Agent | Purpose |
-| --- | --- |
-| `explorer-subagent.agent.md` | Fast codebase discovery, file mapping, dependency scanning |
-| `oracle-subagent.agent.md` | Deep architecture analysis and pattern recognition |
+Some orchestration workflows benefit from enabling subagents and higher reasoning effort in Copilot:
 
-These agents help reduce context overload by isolating discovery and analysis from implementation.
-
-### Human‑in‑the‑Loop Governance
-
-Even when orchestration agents are used, this workflow intentionally preserves human approval gates:
-
-- Planner output must be reviewed before Builder begins
-- Blocking open questions must be resolved before implementation
-- Reviewer approval is required before merge
-- Issue closure occurs only after merge and deployment validation
-
-Orchestration agents MAY assist with delivery, but final governance remains human‑controlled.
-
-### YAML Frontmatter Convention
-
-Agent files may include YAML metadata at the top of each `.agent.md` file:
-
-```
----
-description: Purpose of the agent
-model: Preferred AI model
-tools: [search, edit, runCommands]
-handoff:
-  - agent: <target-agent>
-    description: When this handoff should occur
----
+```json
+{
+  "chat.customAgentInSubagent.enabled": true,
+  "github.copilot.chat.responsesApiReasoningEffort": "high"
+}
 ```
 
-This enables:
+Notes:
 
-- Tool governance
-- Model routing
-- Structured delegation
-- Future compatibility with advanced orchestration engines
+- These settings are optional. The core workflow still works without them.
+- Model availability varies by Copilot plan and VS Code channel.
 
-## Delivery Governance vs Coding Orchestration
+## Installing the agent files
 
-This template is intentionally governance‑first. It focuses on ensuring that features are:
+Agent files live in `agents/` and can be installed in one of two ways:
 
-- Fully specified before implementation
-- Traceable from requirements to code
-- Auditable through structured artefacts
+### Option A: Project-scoped agents
 
-Agent orchestration frameworks (such as Orchestra and Atlas) optimise *how* AI writes code. This template optimises *how software is safely delivered*. The two approaches are complementary and can be combined.
+Copy the `.agent.md` files into your project repo (recommended for teams):
+
+- Keeps the workflow versioned with the codebase
+- Ensures consistent behaviour across collaborators
+
+### Option B: User-scoped agents
+
+Copy `.agent.md` files into your VS Code prompts directory to use them in any workspace:
+
+- **macOS:** `~/Library/Application Support/Code/User/prompts/` (or `Code - Insiders/User/prompts/`)
+- **Windows:** `%APPDATA%\\Code\\User\\prompts\\` (or `Code - Insiders\\User\\prompts\\`)
+- **Linux:** `~/.config/Code/User/prompts/` (or `Code - Insiders/User/prompts/`)
+
+Reload VS Code after copying so Copilot detects the agents.
 
 ## What is included in this template
 
@@ -254,6 +401,14 @@ To adapt this template to your project:
 3. **Add or remove review dimensions** in `reviewer-template.md` to match your quality bar.
 4. **Create a `current-state.md`** using the current-state template to give Planners context about your codebase.
 5. **Define Derived Capability conventions** if your product requires structured capability tracking for backlog generation or reporting.
+
+## Acknowledgments
+
+This template borrows orchestration concepts and naming conventions from community projects, while focusing on delivery governance:
+
+- **Copilot Orchestra** by ShepAlderson: foundation patterns for multi-agent planning → implementation → review workflows
+- **Copilot Atlas**: extended orchestration patterns (context conservation, parallel discovery, handoffs)
+- **oh-my-opencode**: agent naming conventions inspiration
 
 ## Licence
 
