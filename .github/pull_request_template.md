@@ -32,7 +32,7 @@
 
 ## Migration notes
 
-- **DB migrations:** None / `web/supabase/migrations/....sql`
+- **DB migrations:** None / list migration files or commands (e.g., `path/to/migrations/*.sql`)
 - **Config/env changes:** None / list keys + where set
 - **Backwards compatibility:** None / describe
 - **Rollback plan:** None / describe
@@ -44,9 +44,9 @@
 - [ ] Acceptance criteria mapped above with evidence
 - [ ] Tests cover new/changed behaviour
 - [ ] Verification commands run (paste output links or short notes):
-  - [ ] `npm test` / `pnpm test` / `bun test` (as applicable)
-  - [ ] `npm run lint` / `pnpm lint`
-  - [ ] Any integration tests / DB tests (as applicable)
+  - [ ] Local dev runs: `npm run dev` (as applicable)
+  - [ ] Static site builds successfully: `bundle exec jekyll build` (locally or via CI)
+  - [ ] Any additional tests / checks (e.g., integration tests / DB tests), as applicable
 - [ ] No secrets or credentials committed
 - [ ] Documentation updated (README/current-state/feature docs) if applicable
 - [ ] Post-merge actions noted (deploy/migration apply/monitoring)

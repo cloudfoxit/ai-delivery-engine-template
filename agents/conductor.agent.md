@@ -1,21 +1,7 @@
 ---
 name: Conductor
 description: "Orchestrates Planner → Builder → Reviewer workflow, manages approval gates, and coordinates GitHub lifecycle."
-tools:
-  [
-    "read/readFile",
-    "search/codebase",
-    "search/textSearch",
-    "search/listDirectory",
-    "edit/editFiles",
-    "edit/createFile",
-    "execute/runInTerminal",
-    "execute/runTests",
-    "execute/getTerminalOutput",
-    "execute/awaitTerminal",
-    "vscode/runCommand",
-    "agent",
-  ]
+tools: ["read/readFile", "search/codebase", "search/textSearch", "search/listDirectory", "edit/editFiles", "edit/createFile", "execute/runInTerminal", "execute/getTerminalOutput", "execute/awaitTerminal", "vscode/runCommand", "agent"]
 model: Claude Sonnet 4.5 (copilot)
 ---
 

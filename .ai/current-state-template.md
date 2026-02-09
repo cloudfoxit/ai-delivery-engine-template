@@ -1,9 +1,3 @@
-# Current State Template
-
----
-
-## YAML FRONTMATTER
-
 ---
 description: Produces a deterministic, evidence-based system snapshot used for backlog generation, planning, and implementation
 role: Current State Analyst

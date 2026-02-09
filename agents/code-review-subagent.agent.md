@@ -1,20 +1,7 @@
 ---
 name: Reviewer
 description: "Validates implementation integrity, planner artefact alignment, test coverage, and deployment safety."
-tools:
-  [
-    "read/readFile",
-    "search/codebase",
-    "search/changes",
-    "search/usages",
-    "search/textSearch",
-    "search/listDirectory",
-    "execute/runInTerminal",
-    "execute/runTests",
-    "execute/getTerminalOutput",
-    "vscode/runCommand",
-    "agent",
-  ]
+tools: ["read/readFile", "search/codebase", "search/changes", "search/usages", "search/textSearch", "search/listDirectory", "execute/runInTerminal", "execute/getTerminalOutput", "vscode/runCommand", "agent"]
 model: Claude Sonnet 4.5 (copilot)
 ---
 

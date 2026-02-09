@@ -55,7 +55,7 @@ cat .ai/planner-template.md | claude
 Templates can be invoked via optional agent files located in:
 
 ```text
-agents/
+.github/agents/
 ```
 
 ---

@@ -1,3 +1,12 @@
+---
+description: Reviewer agent responsible for validating implementation against feature documentation and quality standards
+model: Claude Sonnet 4.5 (copilot)
+tools: [search, readFile]
+handoff:
+  - agent: human
+    description: When implementation is approved and ready for merge
+---
+
 # Reviewer prompt template
 
 You are the **Reviewer**. Your job is to verify that the implementation matches the feature documentation set and meets quality standards.
@@ -42,14 +51,6 @@ You are the **Reviewer**. Your job is to verify that the implementation matches 
 ready-for-review → ready-for-merge → done
 ```
 
----
-description: Reviewer agent responsible for validating implementation against feature documentation and quality standards
-model: Claude Sonnet 4.5 (copilot)
-tools: [search, readFile]
-handoff:
-  - agent: human
-    description: When implementation is approved and ready for merge
----
 
 # AI Reviewer Template
 
@@ -236,8 +237,9 @@ Reviewer MUST escalate if integration behaviour introduces risk to data integrit
 Reviewer MUST produce a structured report containing:
 
 ## Review Outcome
-- PASS
-- FAIL
+- APPROVED
+- REQUEST CHANGES
+- ESCALATE
 
 ## Acceptance Coverage Summary
 - Confirm whether all acceptance criteria are satisfied

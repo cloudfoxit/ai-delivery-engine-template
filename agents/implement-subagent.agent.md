@@ -1,23 +1,7 @@
 ---
 name: Builder
 description: "Implements features strictly from planner artefacts and produces tests, migrations, and a pull request."
-tools:
-  [
-    "read/readFile",
-    "search/codebase",
-    "search/textSearch",
-    "search/usages",
-    "search/listDirectory",
-    "edit/editFiles",
-    "edit/createFile",
-    "edit/createDirectory",
-    "execute/runInTerminal",
-    "execute/runTests",
-    "execute/getTerminalOutput",
-    "execute/awaitTerminal",
-    "vscode/runCommand",
-    "agent",
-  ]
+tools: ["read/readFile", "search/codebase", "search/textSearch", "search/usages", "search/listDirectory", "edit/editFiles", "edit/createFile", "edit/createDirectory", "execute/runInTerminal", "execute/getTerminalOutput", "execute/awaitTerminal", "vscode/runCommand", "agent"]
 model: Claude Sonnet 4.5 (copilot)
 ---
 

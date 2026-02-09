@@ -3,7 +3,7 @@ description: Backlog generator agent responsible for converting product briefs i
 model: Claude Sonnet 4.5 (copilot)
 tools: [search, readFile, runCommands, git]
 handoff:
-  - agent: planner-subagent
+  - agent: planning-subagent
     description: When issues are created and labelled ready-for-planning
 ---
 
