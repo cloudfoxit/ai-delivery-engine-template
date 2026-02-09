@@ -1,20 +1,7 @@
 ---
 name: Planner
 description: "Creates deterministic feature artefacts (spec, contract, acceptance, checklist) from a GitHub issue or feature request."
-tools:
-  [
-    "read/readFile",
-    "search/codebase",
-    "search/textSearch",
-    "search/usages",
-    "search/listDirectory",
-    "edit/createFile",
-    "edit/createDirectory",
-    "edit/editFiles",
-    "execute/runInTerminal",
-    "vscode/runCommand",
-    "agent",
-  ]
+tools: ["read/readFile", "search/codebase", "search/textSearch", "search/usages", "search/listDirectory", "edit/createFile", "edit/createDirectory", "edit/editFiles", "execute/runInTerminal", "vscode/runCommand", "agent"]
 model: Claude Sonnet 4.5 (copilot)
 ---
 
