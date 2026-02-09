@@ -44,8 +44,8 @@
 - [ ] Acceptance criteria mapped above with evidence
 - [ ] Tests cover new/changed behaviour
 - [ ] Verification commands run (paste output links or short notes):
-  - [ ] Local dev runs: `npm run dev` (as applicable)
-  - [ ] Static site builds successfully: `bundle exec jekyll build` (locally or via CI)
+  - [ ] Project test suite run (e.g., project-specific test command or link to CI test job)
+  - [ ] Project build/verification completed (e.g., project-specific build command or link to CI run)
   - [ ] Any additional tests / checks (e.g., integration tests / DB tests), as applicable
 - [ ] No secrets or credentials committed
 - [ ] Documentation updated (README/current-state/feature docs) if applicable
