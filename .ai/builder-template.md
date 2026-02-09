@@ -151,6 +151,20 @@ Highlight schema, integration, or migration risks.
 ### Migration Notes
 Describe deployment order and rollback considerations.
 
+### Delivery Model
+
+This repository follows a single-feature PR model.
+
+Builder MUST:
+- Continue work in the existing feature branch
+- Amend or extend the existing PR
+- Treat the PR as the canonical implementation record
+
+Builder MUST NOT:
+- Create new PRs
+- Split implementation across branches
+- Re-scope the feature without Planner direction
+
 ---
 
 # STOP CONDITIONS
